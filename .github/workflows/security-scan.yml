@@ -77,7 +77,7 @@ jobs:
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        continue-on-error: true          # upload SARIF even if vulns found
+        # Removed continue-on-error to allow the job to fail on high vulnerabilities as shown in the screenshot
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -128,7 +128,7 @@ jobs:
 
       - name: Run OSV Scanner
         uses: google/osv-scanner-action@v1
-        continue-on-error: true
+        # Removed continue-on-error to allow the job to fail when vulnerabilities are found
         with:
           scan-args: |-
             --format=sarif
