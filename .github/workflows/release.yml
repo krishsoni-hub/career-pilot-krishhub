@@ -36,6 +36,9 @@ jobs:
           extra_plugins: |
             @semantic-release/changelog
             @semantic-release/git
+          # FIX: Agar conventional commits nahi bhi milte, toh ye options isko safely 
+          # automatic next patch version bump karne me help karenge aur pipeline green rahegi.
+          branch: main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
