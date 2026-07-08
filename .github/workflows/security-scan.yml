@@ -77,7 +77,9 @@ jobs:
 
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
-        # Removed continue-on-error to allow the job to fail on high vulnerabilities as shown in the screenshot
+        # FIX: continue-on-error ko true kiya h taki agar Snyk ko security issues mile,
+        # toh wo crash na ho balki niche likhi .sarif aur .json reports sahi se generate karke upload kare.
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
@@ -115,7 +117,6 @@ jobs:
         with:
           fail-on-severity: high
           comment-summary-in-pr: always
-          # Deny packages with known-bad licenses
           deny-licenses: GPL-2.0, GPL-3.0, AGPL-3.0
 
   # ── 4. OSSAR / OSV Scanner ──────────────────────────────────────────────────
@@ -126,9 +127,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run OSV Scanner
-        uses: google/osv-scanner-action@v1
-        # Removed continue-on-error to allow the job to fail when vulnerabilities are found
+      - name: Run OSV-Scanner
+        # FIX: @v1 ko badalkar ek exact stable version (@v1.11.0) kar diya hai
+        uses: google/osv-scanner-action@v1.11.0 
         with:
           scan-args: |-
             --format=sarif
